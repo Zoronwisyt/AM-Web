@@ -52,25 +52,41 @@
   <!-- top bar -->
   <header class="ed-top">
     <button id="btn-back" class="icon-btn" title="Back to projects">
-      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <input id="ed-title" class="ed-title" spellcheck="false" value="Untitled">
+    <div class="ed-title-wrap">
+      <input id="ed-title" class="ed-title" spellcheck="false" value="Untitled">
+      <span id="ed-sub-title" class="ed-sub-title" style="display:none"></span>
+    </div>
     <div class="ed-top-right">
-      <button id="btn-import-xml-top" class="icon-btn" title="Import XML project">
-        <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-3.5-3.5M12 15l3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16v3h14v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button id="btn-settings" class="icon-btn" title="Project settings">
-        <svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 .1-1 7.6 7.6 0 0 0-.1-1l2-1.6a.5.5 0 0 0 .1-.6l-2-3.4a.5.5 0 0 0-.6-.2l-2.4 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.3 2.6a7.4 7.4 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.6L4.4 11a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l2 3.4c.1.2.4.3.6.2l2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.6c0 .2.2.4.4.4h4c.2 0 .4-.2.5-.4l.3-2.6a7.4 7.4 0 0 0 1.7-1l2.4 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.6zM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5z" fill="currentColor"/></svg>
-      </button>
-      <button id="btn-export" class="export-btn" title="Export &amp; Share">
-        <svg viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4.2 4.2M12 5l4.2 4.2" fill="none" stroke="#04261a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16v3h14v-3" fill="none" stroke="#04261a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
+      <div id="ed-top-normal" class="ed-top-group">
+        <button id="btn-import-xml-top" class="icon-btn" title="Import XML project">
+          <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-3.5-3.5M12 15l3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16v3h14v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="btn-settings" class="icon-btn" title="Project settings">
+          <svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 .1-1 7.6 7.6 0 0 0-.1-1l2-1.6a.5.5 0 0 0 .1-.6l-2-3.4a.5.5 0 0 0-.6-.2l-2.4 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.3 2.6a7.4 7.4 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.6L4.4 11a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l2 3.4c.1.2.4.3.6.2l2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.6c0 .2.2.4.4.4h4c.2 0 .4-.2.5-.4l.3-2.6a7.4 7.4 0 0 0 1.7-1l2.4 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.6zM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5z" fill="currentColor"/></svg>
+        </button>
+        <button id="btn-export" class="export-btn" title="Export &amp; Share">
+          <svg viewBox="0 0 24 24"><path d="M12 15V4m0 0l-4 4m4-4l4 4" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div id="ed-top-layer" class="ed-top-group" style="display:none">
+        <button id="btn-layer-group" class="icon-btn" title="Duplicate layer">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 15v3a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </button>
+        <button id="btn-layer-delete" class="icon-btn" title="Delete layer">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="btn-layer-more" class="icon-btn" title="More options">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="16" cy="12" r="1.5" fill="currentColor"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
   <div class="ed-main">
-    <!-- left toolbar -->
-    <aside class="left-bar">
+    <!-- desktop left toolbar (kept for tests and quick access) -->
+    <aside class="left-bar" style="display:none">
       <div class="lb-group">
         <button id="lb-select" class="lb-btn active" title="Select / move tool">
           <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 13v6m0-6a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 13z" fill="currentColor"/></svg>
@@ -105,9 +121,12 @@
       </button>
     </aside>
 
-    <!-- center: preview + timeline -->
+    <!-- center: preview + transport + timeline + iphone sheet -->
     <main class="center">
       <div class="preview-area">
+        <button id="btn-canvas-zoom" class="canvas-zoom-btn" title="Zoom preview" style="display:none">
+          <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="10.5" cy="10.5" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5l5 5M8 10.5h5M10.5 8v5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
         <div id="canvas-wrap" class="canvas-wrap">
           <canvas id="stage"></canvas>
           <div id="sel-box" class="sel-box" hidden></div>
@@ -117,25 +136,33 @@
       <!-- timeline resizer handle -->
       <div id="tl-resizer" class="tl-resizer" title="Drag up/down to resize timeline"></div>
 
-      <!-- transport -->
+      <!-- transport bar (Alight Motion iOS) -->
       <div class="tl-tools">
-        <div id="tl-time" class="tl-time">00:00:00</div>
-        <div class="tl-transport">
-          <button id="t-jstart" class="t-btn" title="Jump to start">
-            <svg viewBox="0 0 24 24"><path d="M6 5v14M18 5l-9 7 9 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="tl-transport-row">
+          <button id="t-undo" class="t-btn" title="Undo">
+            <svg viewBox="0 0 24 24"><path d="M9 6L4 11l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 11h11a5 5 0 0 1 5 5v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
-          <button id="t-play" class="t-btn t-play" title="Play / pause (Space)">
-            <svg class="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>
-            <svg class="i-pause" viewBox="0 0 24 24" hidden><path d="M7 4h4v16H7zM13 4h4v16h-4z" fill="currentColor"/></svg>
+          <button id="t-redo" class="t-btn" title="Redo">
+            <svg viewBox="0 0 24 24"><path d="M15 6l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 11H9a5 5 0 0 0-5 5v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <button id="t-jstart" class="t-btn" title="Jump to start">
+            <svg viewBox="0 0 24 24"><path d="M5 5v14M19 5l-10 7 10 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="t-play" class="t-btn t-play" title="Play / pause">
+            <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" hidden><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
           </button>
           <button id="t-jend" class="t-btn" title="Jump to end">
-            <svg viewBox="0 0 24 24"><path d="M18 5v14M6 5l9 7-9 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M19 5v14M5 5l10 7-10 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button id="t-bookmark" class="t-btn" title="Toggle bookmark">
-            <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <button id="t-bookmark" class="t-btn" title="Bookmarks &amp; Layers">
+            <svg viewBox="0 0 24 24"><rect x="4" y="6" width="11" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8 4h10a2 2 0 0 1 2 2v10" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10 12h5M12.5 9.5v5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+          </button>
+          <button id="t-fit" class="t-btn" title="Fit to screen">
+            <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
-        <div class="tl-right">
+        <div class="tl-right" style="display:none">
           <button id="t-paste" class="t-btn" title="Paste layer" hidden>
             <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 4V2.8h6V4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </button>
@@ -145,9 +172,17 @@
         </div>
       </div>
 
+      <!-- Timecode bubble bar with glowing pink pointer (Alight Motion iOS) -->
+      <div class="timecode-bar">
+        <div id="tl-time-bubble" class="tl-time-bubble">
+          <span class="bubble-arrow">▲</span>
+          <div id="tl-time" class="tl-time">00:00:00</div>
+        </div>
+      </div>
+
       <!-- timeline -->
       <section id="timeline" class="timeline">
-        <div id="tl-zoombar" class="tl-zoombar">
+        <div id="tl-zoombar" class="tl-zoombar" style="display:none">
           <button id="tl-zin" title="Zoom in">+</button>
           <button id="tl-zout" title="Zoom out">−</button>
           <input id="t-end-input" class="t-end" title="Project duration (frames)" type="number" min="1">
@@ -160,11 +195,18 @@
           </div>
           <div id="tl-playhead" class="tl-playhead"></div>
         </div>
+        <!-- Floating Add Button (Alight Motion iOS Mint Green Circle) -->
+        <button id="fab-add" class="fab-add" title="Add Layer">+</button>
       </section>
+
+      <!-- Bottom Panel Container (Selection bar & Tool inspectors) -->
+      <div id="bottom-panel-wrap" class="bottom-panel-wrap" style="display:none">
+        <div id="tool-detail-panel" class="tool-detail-panel" style="display:none"></div>
+      </div>
     </main>
 
-    <!-- right dock -->
-    <aside class="right-dock">
+    <!-- desktop right dock (hidden on iPhone layout, accessible for fallback) -->
+    <aside class="right-dock" style="display:none">
       <div class="rd-header">
         <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
@@ -214,6 +256,95 @@
         </button>
       </div>
     </aside>
+  </div>
+</div>
+
+<!-- ============ ALIGHT MOTION IOS ADD MENU BOTTOM SHEET ============ -->
+<div class="ios-sheet-overlay" id="ios-add-sheet" style="display:none">
+  <div class="ios-sheet">
+    <div class="ios-sheet-tabs">
+      <button class="ios-tab-btn active" data-tab="shape">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <circle cx="8" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16 4.5l3.5 6h-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <rect x="4.5" y="13.5" width="6.5" height="6.5" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M16.5 19.5s-3-1.8-3-3.8a1.6 1.6 0 0 1 3-.6 1.6 1.6 0 0 1 3 .6c0 2-3 3.8-3 3.8z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span>Shape</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="media">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="8.5" cy="9.5" r="1.8" fill="currentColor"/>
+          <path d="M3 16.5l5.5-5.5 4 4 3-3 5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <span>Media</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="audio">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <path d="M9 18V5l10-2v12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="6.5" cy="18" r="2.5" fill="currentColor"/>
+          <circle cx="16.5" cy="15" r="2.5" fill="currentColor"/>
+        </svg>
+        <span>Audio</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="object">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <circle cx="8" cy="7.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="16" cy="7.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="12" cy="15.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+        <span>Object / Element</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="template">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M3 10h18M10 10v11" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span>Template</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="freehand">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <path d="M4 19c2-.5 3-1 4.5-3C10 14 11 9 13 9s2 3 3.5 3.5S20 11 21 8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M4 19l3-.7-.9 1.5z" fill="currentColor"/>
+        </svg>
+        <span>Freehand Drawing</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="vector">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <path d="M12 2l5 9H7z" fill="currentColor" opacity=".85"/>
+          <path d="M12 11v6.2" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="12" cy="17.5" r="2" fill="currentColor"/>
+          <path d="M4 21h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span>Vector Drawing</span>
+      </button>
+      <button class="ios-tab-btn" data-tab="text">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <text x="3" y="16.5" font-size="14" font-weight="700" fill="currentColor">A</text>
+          <text x="13" y="20" font-size="9" font-weight="600" fill="currentColor">a</text>
+        </svg>
+        <span>Text</span>
+      </button>
+      <button class="ios-tab-btn ios-close-tab" id="btn-close-add-sheet">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M6 18L18 6M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Shapes page content (Alight Motion iOS 1:1 shapes grid) -->
+    <div class="ios-sheet-content" id="ios-add-shapes-page">
+      <div class="ios-shapes-grid" id="ios-shapes-grid">
+        <!-- Rendered dynamically with solid white vector glyphs on dark cards -->
+      </div>
+      <div class="ios-dots-row">
+        <span class="ios-dot active"></span>
+        <span class="ios-dot"></span>
+        <span class="ios-dot"></span>
+        <span class="ios-dot"></span>
+      </div>
+    </div>
   </div>
 </div>
 

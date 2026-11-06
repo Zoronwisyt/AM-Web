@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<iframe id="app" src="http://127.0.0.1:8099/index.html" style="position:fixed;inset:0;width:393px;height:852px;border:none;"></iframe>
+<script>
+window.onload = async () => {
+  await new Promise(r => setTimeout(r, 1200));
+  const doc = document.getElementById('app').contentDocument;
+  const win = document.getElementById('app').contentWindow;
+  
+  // Create sample project
+  const p = win.createProject({ name: 'Project Name 317 Copy', width: 1080, height: 1350, fps: 30, duration: 5 });
+  const l1 = win.createLayer(p, 'shape', { shape: 'roundrect', w: 420, h: 420, fill: { type: 'solid', color: '#00e676' } });
+  l1.name = 'Shape 1'; l1.start = 0; l1.duration = 5;
+  p.layers.push(l1);
+  await win.Storage.put('projects', p);
+  await win.Editor.open(p);
+  await new Promise(r => setTimeout(r, 600));
+
+  // Report ready
+  fetch('/report', { method: 'POST', body: 'ready' });
+};
+</script>
+</body>
+</html>

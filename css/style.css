@@ -1,14 +1,14 @@
-/* Alight Motion Web — iPad GUI recreation.
-   Palette: near-black slate panels, teal layer bars, green accent. */
+/* Alight Motion Web — iPhone iOS GUI recreation.
+   Palette: dark navy slate panels, mint-green accent, glowing pink playhead. */
 :root{
-  --bg:#0a0c10; --bg2:#0d1016; --panel:#14171e; --panel2:#1b1f28; --panel3:#232833;
-  --line:#2a303c; --txt:#e8ecf2; --txt2:#9aa4b2; --txt3:#5c6675;
-  --accent:#00e887; --accent-dim:#0a5c3e; --layerbar:#3aa8b8; --layerbar2:#2f8894;
-  --sel:#00c2ff; --danger:#ff5470; --r:14px;
+  --bg:#0f111a; --bg2:#141722; --panel:#191d2b; --panel2:#1f2436; --panel3:#272d42;
+  --line:#262c3f; --txt:#f0f4f9; --txt2:#9aa6b8; --txt3:#5c687d;
+  --accent:#00e676; --accent-dim:#0b5735; --layerbar:#3aa8b8; --layerbar2:#2f8894;
+  --sel:#00c2ff; --pink:#ff2d78; --danger:#ff5470; --r:14px;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0}
-body{background:var(--bg);color:var(--txt);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;overflow:hidden;user-select:none}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,sans-serif;overflow:hidden;user-select:none}
 button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
 input,select,textarea{font-family:inherit;color:var(--txt);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--accent)}
@@ -18,7 +18,7 @@ input[type=file]{display:none}
 .screen.active{display:flex;flex-direction:column}
 
 /* ---------- HOME ---------- */
-.home-header{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line);min-height:64px}
+.home-header{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--line);min-height:64px;background:var(--bg2)}
 .home-logo{display:flex;align-items:center;gap:10px}
 .home-logo h1{font-size:20px;font-weight:700;margin:0;letter-spacing:.2px}
 .home-actions{display:flex;gap:8px;align-items:center}
@@ -51,13 +51,217 @@ input[type=file]{display:none}
 .pcard:hover .pcard-check,.selection-active .pcard .pcard-check,.pcard.selected .pcard-check{display:flex}
 .pcard.selected .pcard-check{background:var(--accent);border-color:var(--accent);color:#04261a}
 .pcard-check:hover{border-color:var(--accent);transform:scale(1.08)}
-.fab{position:absolute;right:26px;bottom:26px;width:62px;height:62px;border-radius:50%;background:var(--accent);color:#04261a;font-size:34px;line-height:1;font-weight:700;box-shadow:0 8px 24px rgba(0,232,135,.35)}
+.fab{position:absolute;right:26px;bottom:26px;width:62px;height:62px;border-radius:50%;background:var(--accent);color:#04261a;font-size:34px;line-height:1;font-weight:700;box-shadow:0 8px 24px rgba(0,230,118,.35)}
 .fab:hover{filter:brightness(1.08)}
 
-/* ---------- EDITOR ---------- */
-.ed-top{display:flex;align-items:center;gap:12px;height:56px;padding:0 10px;border-bottom:1px solid var(--line);background:var(--bg2)}
-.ed-title{flex:0 1 260px;margin-left:6px;background:transparent;border-color:transparent;font-size:16px;font-weight:600;padding:6px 10px}
-.ed-title:hover,.ed-title:focus{border-color:var(--line)}
+/* ---------- EDITOR HEADER (Alight Motion iOS) ---------- */
+.ed-top{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 12px;border-bottom:1px solid var(--line);background:var(--bg2);z-index:20}
+.ed-top .icon-btn{width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:#cfd8e3}
+.ed-top .icon-btn:hover{background:var(--panel2);color:#ffffff}
+.ed-title-wrap{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;padding:0 8px}
+.ed-title{width:100%;max-width:280px;background:transparent;border:1px solid transparent;font-size:16px;font-weight:600;padding:4px 8px;text-align:center;color:#ffffff;border-radius:8px}
+.ed-title:hover,.ed-title:focus{border-color:var(--line);background:rgba(255,255,255,0.04)}
+.ed-sub-title{font-size:16px;font-weight:600;color:#ffffff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-top-right{display:flex;align-items:center;gap:8px}
+.ed-top-group{display:flex;align-items:center;gap:8px}
+.export-btn{width:36px;height:36px;border-radius:9px;background:var(--accent);color:#ffffff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,230,118,.32);transition:all .15s}
+.export-btn:hover{filter:brightness(1.1);transform:scale(1.04)}
+.export-btn svg{width:20px;height:20px}
+#btn-settings{color:#8f9caf}
+#btn-settings:hover{color:#ffffff}
+
+.ed-main{flex:1;display:flex;min-height:0;position:relative}
+.center{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;background:var(--bg)}
+
+/* ---------- PREVIEW AREA ---------- */
+.preview-area{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000000;min-height:160px}
+.canvas-wrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-width:0;height:100%;overflow:hidden}
+#stage{display:block;background:#000;border-radius:2px;cursor:default}
+.sel-box{position:absolute;border:1.5px solid #ffffff;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.4)}
+.canvas-zoom-btn{position:absolute;top:10px;left:10px;width:34px;height:34px;border-radius:9px;background:rgba(22,25,36,.82);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);color:#ffffff;display:flex;align-items:center;justify-content:center;z-index:22;cursor:pointer;transition:all .15s}
+.canvas-zoom-btn:hover{background:rgba(35,40,58,.95);transform:scale(1.05)}
+
+/* ---------- TRANSPORT BAR (Alight Motion iOS) ---------- */
+.tl-tools{display:flex;align-items:center;height:44px;padding:0 8px;border-top:1px solid var(--line);background:var(--bg2);z-index:15}
+.tl-transport-row{width:100%;display:flex;align-items:center;justify-content:space-around}
+.t-btn{width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:#8f9ba9;transition:all .12s}
+.t-btn svg{width:22px;height:22px}
+.t-btn:hover{color:#ffffff;background:rgba(255,255,255,.06)}
+.t-btn:active{transform:scale(0.92)}
+.t-play{color:#ffffff}
+.t-play:hover{color:var(--accent)}
+
+/* ---------- TIMECODE POINTER BUBBLE (Alight Motion iOS) ---------- */
+.timecode-bar{position:relative;width:100%;height:28px;display:flex;align-items:center;justify-content:center;background:var(--bg2);z-index:16;pointer-events:none}
+.tl-time-bubble{position:relative;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,45,120,.09);border:1.5px solid var(--pink);border-radius:12px;padding:2px 12px;pointer-events:auto;cursor:pointer;box-shadow:0 0 10px rgba(255,45,120,.28)}
+.tl-time-bubble .bubble-arrow{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:8px;color:var(--pink);line-height:1}
+.tl-time{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",monospace;font-size:13px;font-weight:700;color:var(--pink);letter-spacing:.6px;user-select:none}
+.tl-time-input{font-size:13px;font-weight:700;letter-spacing:.6px;color:var(--pink);background:var(--bg);border:1.5px solid var(--pink);border-radius:8px;padding:2px 6px;width:96px;outline:none;box-shadow:0 0 10px rgba(255,45,120,.4);text-align:center}
+
+/* ---------- TIMELINE AREA ---------- */
+.timeline{position:relative;height:240px;min-height:140px;background:var(--bg2);border-top:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.tl-resizer{height:6px;cursor:ns-resize;background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;z-index:15;user-select:none}
+.tl-resizer::after{content:"";width:40px;height:2px;border-radius:1px;background:var(--txt3);opacity:.4}
+.tl-resizer:hover::after{background:var(--accent);opacity:1}
+.tl-scroll{position:relative;flex:1;overflow-y:auto;overflow-x:auto}
+.tl-corner-header{position:sticky;left:0;top:0;width:84px;min-width:84px;height:32px;background:var(--bg2);border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:.8px;z-index:12;pointer-events:none;margin-bottom:-32px;box-sizing:border-box}
+.tl-ruler{position:sticky;top:0;display:block;height:32px;background:var(--bg2);border-bottom:1px solid var(--line);cursor:ew-resize;z-index:5}
+.tl-rows{position:relative;padding-bottom:70px}
+.tl-drop-line{position:absolute;left:0;right:0;height:3px;background:var(--accent);box-shadow:0 0 10px var(--accent);z-index:45;pointer-events:none;border-radius:2px}
+.tl-drop-line[hidden]{display:none}
+
+/* Glowing Pink Playhead line dropping through timeline */
+.tl-playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--pink);z-index:10;pointer-events:none;box-shadow:0 0 6px rgba(255,45,120,.65)}
+.tl-playhead::before{display:none}
+
+/* Layer Row */
+.trow{position:relative;height:42px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s;display:flex;align-items:center}
+.trow.sel{background:rgba(255,255,255,.04)}
+.trow.dragging-row{opacity:.65;background:rgba(0,230,118,.15)!important;outline:1.5px dashed var(--accent);z-index:30}
+.tgut{position:sticky;left:0;width:84px;min-width:84px;height:42px;display:flex;align-items:center;justify-content:center;padding:0 6px;background:var(--bg2);border-right:1px solid var(--line);z-index:10;box-sizing:border-box}
+.layer-pill{display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:3px 6px;gap:6px}
+.eye{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:#cfd8e3}
+.eye svg{width:16px;height:16px}
+.eye.off{opacity:.35;color:var(--txt3)}
+.trailicon{width:20px;height:20px;display:flex;align-items:center;justify-content:center;color:var(--txt2);font-size:11px;border-radius:4px;overflow:hidden}
+.trailicon img{max-width:100%;max-height:100%;object-fit:cover}
+
+/* Layer Track Bar */
+.bar{position:absolute;height:32px;top:5px;background:linear-gradient(180deg,#3b82f6,#2563eb);border-radius:8px;min-width:20px;overflow:hidden;cursor:grab;z-index:4;box-shadow:0 1px 4px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:space-between}
+.bar.camera{background:linear-gradient(180deg,#ef5368,#c43a50)}
+.bar.sel{outline:2px solid #ffffff;box-shadow:0 0 10px rgba(255,255,255,.3)}
+.bar .blabel{position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;font-weight:600;color:#ffffff;text-shadow:0 1px 2px rgba(0,0,0,.6);padding:0 10px;line-height:32px;z-index:3;flex:1}
+.bar-trim-btn{display:none;width:22px;height:32px;background:#ffffff;border-radius:8px;align-items:center;justify-content:center;color:#141722;font-size:14px;font-weight:900;cursor:ew-resize;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.4);user-select:none;flex-shrink:0}
+.bar.sel .bar-trim-btn{display:flex}
+.bar-trim-btn:hover{background:#e6e6e6}
+.bar-kf-diamond{position:absolute;top:50%;width:8px;height:8px;background:#ffffff;transform:translate(-50%,-50%) rotate(45deg);z-index:4;box-shadow:0 0 4px rgba(0,0,0,.5)}
+.bar-right-handle{position:sticky;right:8px;margin-left:auto;display:flex;flex-direction:column;gap:3px;color:var(--txt2);cursor:grab;z-index:6;padding:8px 4px}
+.bar-right-handle i{display:block;width:14px;height:2px;background:currentColor;border-radius:1px}
+
+/* Floating Action Button (FAB +) */
+.fab-add{position:absolute;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:#000000;font-size:32px;line-height:1;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,230,118,.45);z-index:35;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.fab-add:hover{transform:scale(1.06);box-shadow:0 8px 24px rgba(0,230,118,.55)}
+.fab-add:active{transform:scale(0.96)}
+
+/* ---------- BOTTOM PANEL CONTAINER & SELECTION BAR (Alight Motion iOS) ---------- */
+.bottom-panel-wrap{position:relative;width:100%;background:var(--bg);border-top:1px solid var(--line);display:flex;flex-direction:column;z-index:25}
+
+/* Alight Motion iOS Selection Action Panel */
+.sel-actions{position:relative;width:100%;display:flex;flex-direction:column;gap:10px;padding:10px 14px 14px;box-sizing:border-box}
+.sa-row-top{display:flex;gap:8px;align-items:center;width:100%}
+.sa-mini{flex:1;height:42px;border-radius:10px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:#94a3b8;position:relative;cursor:pointer;transition:all .12s}
+.sa-mini svg{width:22px;height:22px}
+.sa-mini:hover:not(:disabled){background:var(--panel2);color:#ffffff;border-color:rgba(255,255,255,.2)}
+.sa-mini .sa-corner{position:absolute;right:4px;bottom:2px;font-size:8px;color:var(--txt3)}
+.sa-join{display:flex;flex:3;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sa-join .sa-mini{border:none;border-radius:0;background:transparent}
+.sa-join .sa-mini:not(:last-child){border-right:1px solid var(--line)}
+.sa-join .sa-mini:hover:not(:disabled){background:var(--panel2);color:#ffffff}
+.sa-tog{display:none}
+
+/* Selection Bar Cards Grid (Alight Motion iOS: 3 cards top, 4 cards bottom) */
+.sa-cards-wrap{display:flex;flex-direction:column;gap:8px;width:100%}
+.sa-row-cards{display:grid;gap:8px;width:100%}
+.sa-row-cards-3{grid-template-columns:repeat(3,1fr)}
+.sa-row-cards-4{grid-template-columns:repeat(4,1fr)}
+.sa-big{width:100%;height:80px;border-radius:14px;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#cfd8e3;cursor:pointer;transition:all .12s;padding:8px 4px;box-sizing:border-box}
+.sa-row-cards-4 .sa-big{height:76px;padding:6px 2px}
+.sa-row-cards-4 .sa-big svg{width:22px;height:22px}
+.sa-row-cards-4 .sa-big span{font-size:10px}
+.sa-big svg{width:26px;height:26px;color:#a0aec0;transition:all .12s}
+.sa-big span{font-size:11px;font-weight:600;line-height:1.2;text-align:center;color:#a0aec0}
+.sa-big:hover:not(:disabled){background:var(--panel2);border-color:rgba(255,255,255,.25);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.sa-big:hover:not(:disabled) svg{color:#ffffff;transform:scale(1.05)}
+.sa-big:hover:not(:disabled) span{color:#ffffff}
+.sa-big:active:not(:disabled){transform:translateY(0)}
+.sa-mini.off,.sa-mini:disabled,.sa-big.off,.sa-big:disabled{opacity:.28;cursor:default;pointer-events:none}
+
+/* ---------- DEDICATED TOOL DETAIL PANEL (Alight Motion iOS 1:1) ---------- */
+.tool-detail-panel{display:flex;width:100%;height:270px;background:var(--bg);box-sizing:border-box}
+.tool-left-strip{width:54px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px 0;border-right:1px solid var(--line);flex-shrink:0}
+.tool-left-strip button{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#9aa6b8;transition:all .12s}
+.tool-left-strip button:hover{background:var(--panel2);color:#ffffff}
+.tool-left-strip button.kf-active{color:var(--accent)}
+.tool-center-area{flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:10px 14px;min-width:0}
+.tool-right-strip{width:54px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px 0;border-left:1px solid var(--line);flex-shrink:0}
+.tool-right-strip button{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#9aa6b8;transition:all .12s}
+.tool-right-strip button.on{color:var(--accent);background:var(--panel3);border:1px solid var(--accent)}
+
+/* Move & Transform Controls (IMG_8551, 8552, 8553) */
+.tf-coords-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}
+.tf-coord-box{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:6px 12px;display:flex;flex-direction:column;align-items:center;min-width:70px}
+.tf-coord-val{font-size:15px;font-weight:700;color:var(--accent);font-family:monospace}
+.tf-coord-lbl{font-size:10px;color:var(--txt3);text-transform:uppercase;margin-top:1px}
+
+/* Pan Touchpad with Corner Tick Brackets */
+.tf-touchpad{position:relative;flex:1;background:linear-gradient(180deg,#151824,#11131c);border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none;min-height:140px;user-select:none}
+.tf-touchpad:active{cursor:grabbing}
+.tf-touchpad-hint{font-size:13px;color:#8f9ba9;pointer-events:none;font-weight:500}
+.tf-corner{position:absolute;width:12px;height:12px;border:2px solid #5a667d;pointer-events:none}
+.tf-corner.tl{top:8px;left:8px;border-right:none;border-bottom:none}
+.tf-corner.tr{top:8px;right:8px;border-left:none;border-bottom:none}
+.tf-corner.bl{bottom:8px;left:8px;border-right:none;border-top:none}
+.tf-corner.br{bottom:8px;right:8px;border-left:none;border-top:none}
+
+/* Circular Rotate Dial (IMG_8552) */
+.tf-rotate-dial{position:relative;width:180px;height:180px;border-radius:50%;border:2px solid var(--line);background:var(--panel);margin:auto;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none}
+.tf-rotate-dial:active{cursor:grabbing}
+.tf-rotate-center{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 14px;font-size:17px;font-weight:700;color:#ffffff;pointer-events:none}
+.tf-rotate-knob{position:absolute;width:24px;height:24px;border-radius:50%;background:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,.5);top:50%;right:-12px;transform:translateY(-50%)}
+
+/* Vertical Scale Scrubber Ruler (IMG_8553) */
+.tf-scale-ruler{position:relative;flex:1;border:1px solid var(--line);border-radius:14px;background:var(--panel);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:ns-resize;touch-action:none;min-height:140px}
+.tf-scale-center-line{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);z-index:3}
+.tf-ruler-ticks{width:100%;height:100%;opacity:.35;background:repeating-linear-gradient(to right,transparent,transparent 7px,var(--txt2) 7px,var(--txt2) 8px)}
+
+/* Border & Shadow (IMG_8554) */
+.ios-switch-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--panel);border-radius:12px;border:1px solid var(--line);margin-bottom:10px}
+.ios-switch{position:relative;width:48px;height:28px;border-radius:14px;background:var(--line);cursor:pointer;transition:background .2s}
+.ios-switch.on{background:var(--accent)}
+.ios-switch-thumb{position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#ffffff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:transform .2s}
+.ios-switch.on .ios-switch-thumb{transform:translateX(20px)}
+
+/* Color & Fill (IMG_8555) */
+.color-tab-strip{display:flex;background:var(--panel);border-radius:10px;padding:3px;gap:4px;margin-bottom:10px}
+.color-tab{flex:1;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#8f9ba9}
+.color-tab.active{background:var(--panel3);color:var(--accent)}
+.color-hex-bar{display:flex;align-items:center;gap:10px;background:var(--panel);padding:6px 10px;border-radius:10px;border:1px solid var(--line);margin-bottom:10px}
+.color-hex-input{flex:1;background:transparent;border:none;font-size:14px;font-weight:600;color:#ffffff;text-align:center}
+.color-swatches-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.color-swatch-box{aspect-ratio:1;border-radius:6px;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:transform .12s}
+.color-swatch-box:hover{transform:scale(1.12);z-index:2}
+
+/* Effects List (IMG_8556, 8557) */
+.ios-effects-list{display:flex;flex-direction:column;gap:8px;width:100%}
+.ios-effect-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;transition:background .12s}
+.ios-effect-item:hover{background:var(--panel2)}
+.ios-effect-title{flex:1;font-size:14px;font-weight:600;color:#ffffff}
+.ios-add-effect-btn{width:100%;height:44px;border-radius:12px;background:var(--panel);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#ffffff;margin-top:10px;cursor:pointer;transition:all .12s}
+.ios-add-effect-btn:hover{background:var(--panel2);border-color:var(--accent);color:var(--accent)}
+
+/* Audio / Volume (IMG_8558) */
+.volume-control-wrap{display:flex;align-items:center;gap:12px;background:var(--panel);padding:14px;border-radius:12px;border:1px solid var(--line);margin:auto 0}
+.volume-slider{flex:1;accent-color:var(--accent)}
+
+/* ---------- ALIGHT MOTION IOS ADD MENU BOTTOM SHEET (IMG_8549) ---------- */
+.ios-sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:80;display:flex;align-items:flex-end;animation:sheetFade .2s ease-out}
+@keyframes sheetFade{from{opacity:0}to{opacity:1}}
+.ios-sheet{width:100%;max-height:65vh;background:var(--bg2);border-top:1px solid var(--line);border-radius:20px 20px 0 0;display:flex;flex-direction:column;overflow:hidden;animation:sheetSlide .22s ease-out}
+@keyframes sheetSlide{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.ios-sheet-tabs{display:flex;align-items:center;overflow-x:auto;padding:12px 14px 8px;gap:8px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.ios-sheet-tabs::-webkit-scrollbar{display:none}
+.ios-tab-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 12px;border-radius:10px;color:#8f9ba9;white-space:nowrap;flex-shrink:0;transition:all .12s}
+.ios-tab-btn span{font-size:11px;font-weight:500}
+.ios-tab-btn.active{color:var(--accent)}
+.ios-close-tab{margin-left:auto;padding:8px}
+.ios-sheet-content{padding:14px 18px 20px;overflow-y:auto;flex:1}
+.ios-shapes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ios-shape-card{aspect-ratio:1;background:#000000;border:1px solid rgba(255,255,255,.08);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s,border-color .12s}
+.ios-shape-card:hover{transform:scale(1.06);border-color:var(--accent)}
+.ios-shape-card svg{width:36px;height:36px;fill:#ffffff}
+.ios-dots-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px}
+.ios-dot{width:6px;height:6px;border-radius:50%;background:#4a5568}
+.ios-dot.active{background:#ffffff;transform:scale(1.2)}
 .ed-top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
 .icon-btn{width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:var(--txt)}
 .icon-btn svg{width:22px;height:22px}
@@ -67,7 +271,7 @@ input[type=file]{display:none}
 #btn-settings{color:var(--accent)}
 
 .ed-main{flex:1;display:flex;min-height:0}
-.left-bar{width:76px;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:6px}
+.left-bar{display:none !important}
 .lb-group{display:flex;flex-direction:column;gap:6px}
 .lb-btn{width:52px;height:52px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;color:var(--txt2)}
 .lb-btn svg{width:26px;height:26px}
@@ -183,7 +387,7 @@ input[type=file]{display:none}
 .tl-playhead::before{content:"";position:absolute;top:-2px;left:-4px;border:5px solid transparent;border-top-color:#fff}
 
 /* right dock */
-.right-dock{width:104px;background:var(--bg2);border-left:1px solid var(--line);display:flex;flex-direction:column;padding:8px 0;overflow-y:auto}
+.right-dock{display:none !important}
 .rd-header{height:48px;display:flex;align-items:center;justify-content:center;color:var(--txt)}
 .rd-header svg{width:22px;height:22px}
 .rd-group{display:flex;flex-direction:column}

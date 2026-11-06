@@ -512,6 +512,9 @@ const Props = {
     Props.updateDiamonds();
   },
   openSection(id) {
+    if (typeof SelBar !== 'undefined' && SelBar.openTool) {
+      SelBar.openTool(id);
+    }
     Props.show();
     const sec = Props.sections[id];
     if (sec) { sec.style.display = ''; const h = sec.previousSibling; if (h && h.querySelector) h.querySelector('.caret').textContent = '▾'; }

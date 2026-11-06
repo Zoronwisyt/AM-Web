@@ -24,7 +24,7 @@ const Editor = {
     document.getElementById('ed-title').value = project.name;
     Editor.render();
     Editor.startLoop();
-    await Editor.save();
+    try { await Editor.save(); } catch {}
   },
   async backgroundSave() { /* periodic */ },
   async save() {
@@ -247,13 +247,18 @@ const Editor = {
     Editor.renderTransportLive();
   },
   rowEl(L, p, visW) {
+    const isSelected = L.id === Editor.selId;
     const row = document.createElement('div');
-    row.className = 'trow' + (L.id === Editor.selId ? ' sel' : '');
+    row.className = 'trow' + (isSelected ? ' sel' : '');
     row.dataset.layer = L.id;
 
-    // Gutter: [Eye] [Type-Symbol] [Three-Lines Reorder Handle]
+    // Gutter: Alight Motion iOS rounded capsule [Eye] [Type / Thumb]
     const gut = document.createElement('div');
     gut.className = 'tgut';
+
+    const pill = document.createElement('div');
+    pill.className = 'layer-pill';
+
     const eye = document.createElement('div');
     eye.className = 'eye' + (L.visible ? '' : ' off');
     eye.innerHTML = `<svg viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/></svg>`;
@@ -269,32 +274,67 @@ const Editor = {
     trail.className = 'trailicon';
     trail.title = L.type ? (L.type.toUpperCase() + ' layer') : 'Layer';
     if (L.type === 'image' && L.src) trail.innerHTML = `<img src="${L.src}">`;
-    else {
-      const label = L.type === 'text' ? 'Aa' : L.type === 'camera' ? 'CAM' : L.type === 'null' ? '◇' : L.type === 'group' ? '▣' : L.type === 'shape' ? '▭' : L.type === 'audio' ? '♪' : L.type === 'video' ? ' ▷' : L.type === 'freehand' ? '✎' : '∿';
+    else if (L.type === 'shape') {
+      trail.style.background = (L.fill && L.fill.color) || '#ffffff';
+      trail.style.border = '1px solid rgba(255,255,255,0.2)';
+    } else {
+      const label = L.type === 'text' ? 'Aa' : L.type === 'camera' ? 'CAM' : L.type === 'null' ? '◇' : L.type === 'group' ? '▣' : L.type === 'audio' ? '♪' : L.type === 'video' ? '▷' : L.type === 'freehand' ? '✎' : '∿';
       trail.textContent = label;
     }
 
-    const grip = document.createElement('div');
-    grip.className = 'layer-drag-handle';
-    grip.title = 'Hold & drag up or down to reorder layers';
-    grip.innerHTML = '<i></i><i></i><i></i>';
-    initLayerDragReorder(grip, row, L, p);
-
-    gut.appendChild(eye);
-    gut.appendChild(trail);
-    gut.appendChild(grip);
+    pill.appendChild(eye);
+    pill.appendChild(trail);
+    gut.appendChild(pill);
     row.appendChild(gut);
 
     // Track bar (positioned beside gutter, never on top)
     const bar = document.createElement('div');
-    bar.className = 'bar' + (L.id === Editor.selId ? ' sel' : '') + (L.type === 'camera' ? ' camera' : '');
+    bar.className = 'bar' + (isSelected ? ' sel' : '') + (L.type === 'camera' ? ' camera' : '');
     bar.dataset.layer = L.id;
     bar.style.left = (Editor.gutterWidth + L.start * Editor.pps) + 'px';
     bar.style.width = Math.max(14, L.duration * Editor.pps) + 'px';
+
+    // Left trim handle (Alight Motion iOS)
+    const trimLeft = document.createElement('div');
+    trimLeft.className = 'bar-trim-btn left';
+    trimLeft.innerHTML = '‹';
+    bar.appendChild(trimLeft);
+
     const bl = document.createElement('div');
     bl.className = 'blabel';
     bl.textContent = L.name;
     bar.appendChild(bl);
+
+    // Keyframe diamonds on ribbon (Alight Motion iOS)
+    if (L.kfs) {
+      for (const prop in L.kfs) {
+        const kfs = L.kfs[prop];
+        if (Array.isArray(kfs)) {
+          for (const k of kfs) {
+            const dia = document.createElement('div');
+            dia.className = 'bar-kf-diamond';
+            const kPos = k.t * (L.speed || 1) * Editor.pps;
+            dia.style.left = Math.min(bar.offsetWidth - 6, Math.max(6, kPos)) + 'px';
+            bar.appendChild(dia);
+          }
+        }
+      }
+    }
+
+    // Right trim handle (Alight Motion iOS)
+    const trimRight = document.createElement('div');
+    trimRight.className = 'bar-trim-btn right';
+    trimRight.innerHTML = '›';
+    bar.appendChild(trimRight);
+
+    // Reorder drag grip (anchored to right edge of timeline row, Alight Motion iOS)
+    const grip = document.createElement('div');
+    grip.className = 'bar-right-handle';
+    grip.title = 'Drag to reorder layers';
+    grip.innerHTML = '<i></i><i></i><i></i>';
+    initLayerDragReorder(grip, row, L, p);
+    row.appendChild(grip);
+
     if (L.type === 'audio' || L.type === 'video') {
       const cv = document.createElement('canvas');
       cv.width = Math.max(14, Math.round(L.duration * Editor.pps)); cv.height = 28;
@@ -311,7 +351,8 @@ const Editor = {
       e.preventDefault();
       Editor.select(L.id);
       const r = bar.getBoundingClientRect();
-      const leftZone = e.clientX - r.left < 12, rightZone = r.right - e.clientX < 12;
+      const leftZone = e.clientX - r.left < 20 || e.target.classList.contains('left');
+      const rightZone = r.right - e.clientX < 20 || e.target.classList.contains('right');
       const startX = L.start, startDur = L.duration, sx = e.clientX;
       Editor.pushUndo();
       const move = ev => {
@@ -322,15 +363,20 @@ const Editor = {
           L.start = ns;
         } else if (rightZone) {
           L.duration = Math.max(0.05, startDur + dx);
-          if (L.type === 'video' || L.type === 'audio') { /* may exceed media len — ok, loops */ }
         } else {
           L.start = Math.max(0, startX + dx);
         }
         bar.style.left = (Editor.gutterWidth + L.start * Editor.pps) + 'px';
         bar.style.width = Math.max(14, L.duration * Editor.pps) + 'px';
       };
-      const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); Props.render(); Editor.save(); };
-      window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+      const up = () => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        if (typeof Props !== 'undefined' && Props.render) Props.render();
+        Editor.save();
+      };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
     });
 
     row.addEventListener('contextmenu', e => {
@@ -927,6 +973,14 @@ function transportInit() {
   document.getElementById('t-jstart').onclick = () => Editor.seek(0);
   document.getElementById('t-jend').onclick = () => Editor.seek(Editor.project.duration - 0.001);
   document.getElementById('t-bookmark').onclick = () => Editor.bookmarkToggle();
+
+  const btnUndo = document.getElementById('t-undo');
+  if (btnUndo) btnUndo.onclick = () => Editor.undo();
+  const btnRedo = document.getElementById('t-redo');
+  if (btnRedo) btnRedo.onclick = () => Editor.redo();
+  const btnFit = document.getElementById('t-fit');
+  if (btnFit) btnFit.onclick = () => { Editor.zoom = 1; Editor.fitStage(); toast('Aspect Fit'); };
+
   document.getElementById('t-copy').onclick = () => {
     const L = Editor.sel(); if (!L) return toast('Select a layer first');
     Editor.clipboard = deep(L); delete Editor.clipboard.id;

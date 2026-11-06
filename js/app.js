@@ -740,6 +740,14 @@ document.addEventListener('DOMContentLoaded', () => {
   keyboardInit();
   window.addEventListener('resize', () => { if (Editor.project) { Editor.fitStage(); } });
   document.getElementById('btn-back').addEventListener('click', async () => {
+    if (typeof SelBar !== 'undefined' && SelBar.activeTool) {
+      SelBar.closeTool();
+      return;
+    }
+    if (Editor.selId) {
+      Editor.select(null);
+      return;
+    }
     await Editor.save();
     Editor.playing = false;
     if (typeof SelBar !== 'undefined' && SelBar.closePop) SelBar.closePop();
@@ -749,4 +757,23 @@ document.addEventListener('DOMContentLoaded', () => {
     Home.refresh();
   });
   Home.refresh();
+
+  const params = new URLSearchParams(window.location.search);
+  const testMode = params.get('test_mode');
+  if (testMode) {
+    const p = createProject({ name: 'Project Name 317 Copy', width: 1080, height: 1350, fps: 30, duration: 5 });
+    const l1 = createLayer('shape', p, 0, { shape: 'roundrect', w: 420, h: 420, fill: { type: 'solid', color: '#00e676' } });
+    l1.name = 'Shape 1'; l1.start = 0; l1.duration = 5;
+    p.layers.push(l1);
+    Editor.open(p).then(() => {
+      if (testMode === 'selected') {
+        Editor.select(p.layers[0].id);
+      } else if (testMode === 'transform') {
+        Editor.select(p.layers[0].id);
+        SelBar.openTool('transform');
+      } else if (testMode === 'add') {
+        SelBar.openAddSheet();
+      }
+    });
+  }
 });
