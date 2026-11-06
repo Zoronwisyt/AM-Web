@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>GLSL Test</title>
+<script src="js/effects-data.js"></script>
+<script src="js/effects-catalog.js"></script>
+<script src="js/effects-engine.js"></script>
+</head>
+<body>
+<h1 id="status">Running tests...</h1>
+<script>
+(async () => {
+  try {
+    console.log('Loading catalog...');
+    await FXCatalog.load();
+    console.log('Catalog loaded:', FXCatalog.defs.length, 'defs');
+    console.log('Running testAll...');
+    const res = await FXEngine.testAll();
+    console.log('testAll complete:', res);
+    await fetch('/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(res)
+    });
+    document.getElementById('status').innerText = 'Done: ' + res.pass + '/' + res.total;
+  } catch (e) {
+    console.error('Test error:', e);
+    await fetch('/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: String(e), stack: e && e.stack })
+    });
+    document.getElementById('status').innerText = 'Error: ' + e;
+  }
+})();
+</script>
+</body>
+</html>

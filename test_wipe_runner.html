@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Wipe Layers Test</title>
+</head>
+<body>
+  <div id="home-screen"></div>
+  <div id="editor-screen"></div>
+  <input id="ed-title" />
+  <div class="preview-area"><canvas id="stage"></canvas></div>
+  <div id="tl-rows"></div>
+  <canvas id="tl-ruler"></canvas>
+  <input id="t-end-input" />
+  <div id="sel-box"></div>
+  <span id="lb-zval"></span>
+  <button id="lb-select"></button>
+  <button id="lb-grid"></button>
+  <button id="lb-timeline"></button>
+  <button id="lb-camera"></button>
+  <button id="lb-zin"></button>
+  <button id="lb-zout"></button>
+  <button id="lb-zfit"></button>
+  <button id="lb-undo"></button>
+  <button id="lb-redo"></button>
+  <button id="lb-play"></button>
+  <button id="t-jstart"></button>
+  <button id="t-jend"></button>
+  <button id="t-bookmark"></button>
+  <button id="t-copy"></button>
+  <button id="t-paste"></button>
+  <div id="timeline"></div>
+
+  <script src="js/effects-data.js"></script>
+  <script src="js/effects-catalog.js"></script>
+  <script src="js/model.js"></script>
+  <script src="js/effects-engine.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/am-xml-export.js"></script>
+
+  <script>
+    (async () => {
+      try {
+        // Wait for FXCatalog initialization
+        await new Promise(r => {
+          if (FXCatalog.ready) return r();
+          const check = setInterval(() => {
+            if (FXCatalog.ready) { clearInterval(check); r(); }
+          }, 50);
+        });
+
+        const xml = "<?xml version='1.0' encoding='UTF-8' ?>\n<!--\nCreated by ALIGHT MOTION XMLS Rectangle Wipe Generator\nExported: 11/4/2026, 9:58:59 PM\n-->\n<scene title=\"Project Name Masking 5x\" width=\"1080\" height=\"1350\" exportWidth=\"1920\" exportHeight=\"1080\" bgcolor=\"#FF000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"1793851139624\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"freeze\">\n  <bookmark t=\"0\"/>\n  <bookmark t=\"5000\"/>\n  <embedScene id=\"5\" label=\"Rectangle 1 Copy 4\" startTime=\"0\" endTime=\"5000\" fillType=\"intrinsic\">\n    <transform>\n      <location value=\"540.000000,1215.000000,0.000000\"/>\n      <scale value=\"1.000000,1.000000\"/>\n    </transform>\n    <effect id=\"com.alightcreative.effects.flip3\" locallyApplied=\"true\">\n      <property name=\"axis\" type=\"float\" value=\"0.000000\"/>\n      <property name=\"angle\" type=\"float\">\n        <kf t=\"0.000000\" v=\"0.000000\" />\n        <kf t=\"0.800000\" v=\"90.000000\" e=\"cubicBezier 0.79 0.00 0.59 1.00\" />\n      </property>\n    </effect>\n    <fillColor value=\"#FF000000\"/>\n    <scene title=\"\" width=\"1080\" height=\"270\" exportWidth=\"1080\" exportHeight=\"270\" bgcolor=\"#00000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"0\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"off\">\n      <shape id=\"1\" label=\"Rectangle 1 Copy 4 Media\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,-405.000000,0.000000\"/>\n        </transform>\n        <fillColor value=\"#FFE05A3A\"/>\n        <property name=\"size\" type=\"vec2\" value=\"540.000000,675.000000\"/>\n      </shape>\n      <shape id=\"2\" label=\"Rectangle 1 Copy 4 Mask\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" blending=\"mask\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n          <scale value=\"5.400000,1.350000\"/>\n        </transform>\n        <fillColor value=\"#FFFFFFFF\"/>\n      </shape>\n    </scene>\n  </embedScene>\n  <embedScene id=\"4\" label=\"Rectangle 1 Copy 3\" startTime=\"0\" endTime=\"5000\" fillType=\"intrinsic\">\n    <transform>\n      <location value=\"540.000000,945.000000,0.000000\"/>\n      <scale value=\"1.000000,1.000000\"/>\n    </transform>\n    <effect id=\"com.alightcreative.effects.flip3\" locallyApplied=\"true\">\n      <property name=\"axis\" type=\"float\" value=\"0.000000\"/>\n      <property name=\"angle\" type=\"float\">\n        <kf t=\"0.000000\" v=\"0.000000\" />\n        <kf t=\"0.700000\" v=\"90.000000\" e=\"cubicBezier 0.79 0.00 0.59 1.00\" />\n      </property>\n    </effect>\n    <fillColor value=\"#FF000000\"/>\n    <scene title=\"\" width=\"1080\" height=\"270\" exportWidth=\"1080\" exportHeight=\"270\" bgcolor=\"#00000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"0\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"off\">\n      <shape id=\"1\" label=\"Rectangle 1 Copy 3 Media\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,-135.000000,0.000000\"/>\n        </transform>\n        <fillColor value=\"#FFE05A3A\"/>\n        <property name=\"size\" type=\"vec2\" value=\"540.000000,675.000000\"/>\n      </shape>\n      <shape id=\"2\" label=\"Rectangle 1 Copy 3 Mask\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" blending=\"mask\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n          <scale value=\"5.400000,1.350000\"/>\n        </transform>\n        <fillColor value=\"#FFFFFFFF\"/>\n      </shape>\n    </scene>\n  </embedScene>\n  <embedScene id=\"3\" label=\"Rectangle 1 Copy 2\" startTime=\"0\" endTime=\"5000\" fillType=\"intrinsic\">\n    <transform>\n      <location value=\"540.000000,675.000000,0.000000\"/>\n      <scale value=\"1.000000,1.000000\"/>\n    </transform>\n    <effect id=\"com.alightcreative.effects.flip3\" locallyApplied=\"true\">\n      <property name=\"axis\" type=\"float\" value=\"0.000000\"/>\n      <property name=\"angle\" type=\"float\">\n        <kf t=\"0.000000\" v=\"0.000000\" />\n        <kf t=\"0.600000\" v=\"90.000000\" e=\"cubicBezier 0.79 0.00 0.59 1.00\" />\n      </property>\n    </effect>\n    <fillColor value=\"#FF000000\"/>\n    <scene title=\"\" width=\"1080\" height=\"270\" exportWidth=\"1080\" exportHeight=\"270\" bgcolor=\"#00000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"0\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"off\">\n      <shape id=\"1\" label=\"Rectangle 1 Copy 2 Media\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n        </transform>\n        <fillColor value=\"#FFE05A3A\"/>\n        <property name=\"size\" type=\"vec2\" value=\"540.000000,675.000000\"/>\n      </shape>\n      <shape id=\"2\" label=\"Rectangle 1 Copy 2 Mask\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" blending=\"mask\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n          <scale value=\"5.400000,1.350000\"/>\n        </transform>\n        <fillColor value=\"#FFFFFFFF\"/>\n      </shape>\n    </scene>\n  </embedScene>\n  <embedScene id=\"2\" label=\"Rectangle 1 Copy\" startTime=\"0\" endTime=\"5000\" fillType=\"intrinsic\">\n    <transform>\n      <location value=\"540.000000,405.000000,0.000000\"/>\n      <scale value=\"1.000000,1.000000\"/>\n    </transform>\n    <effect id=\"com.alightcreative.effects.flip3\" locallyApplied=\"true\">\n      <property name=\"axis\" type=\"float\" value=\"0.000000\"/>\n      <property name=\"angle\" type=\"float\">\n        <kf t=\"0.000000\" v=\"0.000000\" />\n        <kf t=\"0.500000\" v=\"90.000000\" e=\"cubicBezier 0.79 0.00 0.59 1.00\" />\n      </property>\n    </effect>\n    <fillColor value=\"#FF000000\"/>\n    <scene title=\"\" width=\"1080\" height=\"270\" exportWidth=\"1080\" exportHeight=\"270\" bgcolor=\"#00000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"0\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"off\">\n      <shape id=\"1\" label=\"Rectangle 1 Copy Media\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,405.000000,0.000000\"/>\n        </transform>\n        <fillColor value=\"#FFE05A3A\"/>\n        <property name=\"size\" type=\"vec2\" value=\"540.000000,675.000000\"/>\n      </shape>\n      <shape id=\"2\" label=\"Rectangle 1 Copy Mask\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" blending=\"mask\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n          <scale value=\"5.400000,1.350000\"/>\n        </transform>\n        <fillColor value=\"#FFFFFFFF\"/>\n      </shape>\n    </scene>\n  </embedScene>\n  <embedScene id=\"1\" label=\"Rectangle 1\" startTime=\"0\" endTime=\"5000\" fillType=\"intrinsic\">\n    <transform>\n      <location value=\"540.000000,135.000000,0.000000\"/>\n      <scale value=\"1.000000,1.000000\"/>\n    </transform>\n    <effect id=\"com.alightcreative.effects.flip3\" locallyApplied=\"true\">\n      <property name=\"axis\" type=\"float\" value=\"0.000000\"/>\n      <property name=\"angle\" type=\"float\">\n        <kf t=\"0.000000\" v=\"0.000000\" />\n        <kf t=\"0.400000\" v=\"90.000000\" e=\"cubicBezier 0.79 0.00 0.59 1.00\" />\n      </property>\n    </effect>\n    <fillColor value=\"#FF000000\"/>\n    <scene title=\"\" width=\"1080\" height=\"270\" exportWidth=\"1080\" exportHeight=\"270\" bgcolor=\"#00000000\" totalTime=\"5000\" fps=\"60\" modifiedTime=\"0\" amver=\"868\" ffver=\"107\" am=\"com.alightcreative.motion/6.2.59\" amplatform=\"ios\" precompose=\"dynamicResolution\" retime=\"off\">\n      <shape id=\"1\" label=\"Rectangle 1 Media\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,675.000000,0.000000\"/>\n        </transform>\n        <fillColor value=\"#FFE05A3A\"/>\n        <property name=\"size\" type=\"vec2\" value=\"540.000000,675.000000\"/>\n      </shape>\n      <shape id=\"2\" label=\"Rectangle 1 Mask\" startTime=\"0\" endTime=\"5000\" fillType=\"color\" blending=\"mask\" s=\".rect\">\n        <transform>\n          <location value=\"540.000000,135.000000,0.000000\"/>\n          <scale value=\"5.400000,1.350000\"/>\n        </transform>\n        <fillColor value=\"#FFFFFFFF\"/>\n      </shape>\n    </scene>\n  </embedScene>\n</scene>\n";
+        const { project, missingFonts } = AMXML.import(xml);
+
+        const info = {
+          title: project.name,
+          width: project.width,
+          height: project.height,
+          exportWidth: project.exportWidth,
+          exportHeight: project.exportHeight,
+          fps: project.fps,
+          duration: project.duration,
+          bg: project.bg,
+          retime: project.retime,
+          precompose: project.precompose,
+          bookmarks: project.bookmarks,
+          layerCount: project.layers.length,
+          missingFontsCount: (missingFonts || []).length
+        };
+
+        const groups = project.layers.filter(l => l.type === 'group');
+        info.groupCount = groups.length;
+        info.groups = groups.map(g => ({
+          id: g.id,
+          name: g.name,
+          w: g.w,
+          h: g.h,
+          tf: g.tf,
+          memberIds: g.memberIds,
+          effects: (g.effects || []).map(e => ({
+            id: e.id,
+            enabled: e.enabled,
+            hasParamAnim: !!(e.paramAnim && e.paramAnim.angle),
+            angleKfs: e.paramAnim ? e.paramAnim.angle : null
+          }))
+        }));
+
+        const masks = project.layers.filter(l => l.maskMode === 'mask');
+        info.maskCount = masks.length;
+        info.masks = masks.map(m => ({
+          name: m.name,
+          scaleX: m.tf.scaleX,
+          scaleY: m.tf.scaleY,
+          parentId: m.parentId
+        }));
+
+        // Evaluate flip3 angle curve
+        const g5 = groups.find(g => g.name === 'Rectangle 1 Copy 4');
+        const eff = g5 && g5.effects && g5.effects.find(e => e.id.includes('flip3'));
+        let testAngles = [];
+        if (eff) {
+          for (let t = 0; t <= 0.801; t += 0.2) {
+            testAngles.push({
+              t: +t.toFixed(2),
+              angle: effectParamAt(eff, 'angle', t)
+            });
+          }
+        }
+        info.testAngles = testAngles;
+
+        // Render at t=0.4
+        const canvas = document.createElement('canvas');
+        canvas.width = project.width;
+        canvas.height = project.height;
+        const ctx = canvas.getContext('2d');
+        renderComp(ctx, project, 0.4);
+        info.renderSuccess = true;
+
+        // Export roundtrip
+        const exportedXml = AMXML.export(project);
+        info.exportedLength = exportedXml.length;
+        info.hasEmbedScene = exportedXml.includes('<embedScene');
+        info.hasFlip3 = exportedXml.includes('com.alightcreative.effects.flip3');
+
+        await fetch('/report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ success: true, info })
+        });
+      } catch (err) {
+        await fetch('/report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ success: false, error: err.stack || err.message })
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alight Motion</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ HOME SCREEN ============ -->
+<div id="home-screen" class="screen active">
+  <header class="home-header">
+    <div class="home-logo">
+      <span class="swirl">
+        <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 3a9 9 0 1 0 9 9 6 6 0 0 1-6 6 6 6 0 1 1 6-6" fill="none" stroke="#00e887" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </span>
+      <h1>Alight Motion</h1>
+    </div>
+    <div class="home-actions">
+      <div id="home-normal-actions" class="home-actions-group">
+        <button id="btn-select-mode" class="ghost-btn" title="Select multiple projects">Select</button>
+        <button id="btn-import-project" class="ghost-btn" title="Import XML or project package">Import</button>
+      </div>
+      <div id="home-batch-actions" class="home-actions-group" style="display:none">
+        <span id="batch-selected-count" class="batch-count">0 selected</span>
+        <button id="btn-select-all" class="ghost-btn" title="Select all projects">Select All</button>
+        <button id="btn-delete-selected" class="danger-btn" title="Delete selected projects" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16" style="vertical-align:-2px;margin-right:4px;"><path d="M6 7v13a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7M4 7h16M10 11v6M14 11v6M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Delete
+        </button>
+        <button id="btn-cancel-select" class="ghost-btn" title="Exit selection">Done</button>
+      </div>
+      <input type="file" id="file-import" accept=".xml,.json,.alightproj,.amproj" hidden>
+    </div>
+  </header>
+  <nav class="home-tabs">
+    <button class="home-tab active" data-tab="projects">Projects</button>
+    <button class="home-tab" data-tab="elements">Elements</button>
+  </nav>
+  <section id="home-projects" class="home-body">
+    <div id="project-grid" class="project-grid"></div>
+    <button id="fab-new" class="fab">+</button>
+  </section>
+  <section id="home-elements" class="home-body" hidden>
+    <div id="element-grid" class="project-grid"></div>
+  </section>
+</div>
+
+<!-- ============ EDITOR SCREEN ============ -->
+<div id="editor-screen" class="screen">
+  <!-- top bar -->
+  <header class="ed-top">
+    <button id="btn-back" class="icon-btn" title="Back to projects">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <input id="ed-title" class="ed-title" spellcheck="false" value="Untitled">
+    <div class="ed-top-right">
+      <button id="btn-import-xml-top" class="icon-btn" title="Import XML project">
+        <svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-3.5-3.5M12 15l3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16v3h14v-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="btn-settings" class="icon-btn" title="Project settings">
+        <svg viewBox="0 0 24 24"><path d="M19.4 13a7.6 7.6 0 0 0 .1-1 7.6 7.6 0 0 0-.1-1l2-1.6a.5.5 0 0 0 .1-.6l-2-3.4a.5.5 0 0 0-.6-.2l-2.4 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-4a.5.5 0 0 0-.5.4l-.3 2.6a7.4 7.4 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2l-2 3.4a.5.5 0 0 0 .1.6L4.4 11a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l2 3.4c.1.2.4.3.6.2l2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.6c0 .2.2.4.4.4h4c.2 0 .4-.2.5-.4l.3-2.6a7.4 7.4 0 0 0 1.7-1l2.4 1c.2.1.5 0 .6-.2l2-3.4a.5.5 0 0 0-.1-.6zM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5z" fill="currentColor"/></svg>
+      </button>
+      <button id="btn-export" class="export-btn" title="Export &amp; Share">
+        <svg viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4.2 4.2M12 5l4.2 4.2" fill="none" stroke="#04261a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16v3h14v-3" fill="none" stroke="#04261a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="ed-main">
+    <!-- left toolbar -->
+    <aside class="left-bar">
+      <div class="lb-group">
+        <button id="lb-select" class="lb-btn active" title="Select / move tool">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 13v6m0-6a2.4 2.4 0 0 0 2.4-2.4h-4.8A2.4 2.4 0 0 0 12 13z" fill="currentColor"/></svg>
+        </button>
+        <button id="lb-grid" class="lb-btn" title="Toggle grid">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <button id="lb-timeline" class="lb-btn active" title="Toggle timeline">
+          <svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4z" fill="currentColor" opacity=".8"/><path d="M4 12l8 4 8-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 16.5l8 4 8-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="lb-camera" class="lb-btn" title="Toggle camera view">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 10.5l5.5-3v9l-5.5-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="lb-zoom">
+        <button id="lb-zin" class="lb-mini" title="Zoom in">+</button>
+        <div id="lb-zval" class="lb-zval">100%</div>
+        <button id="lb-zout" class="lb-mini" title="Zoom out">−</button>
+        <button id="lb-zfit" class="lb-mini" title="Fit to screen">▭</button>
+      </div>
+      <div class="lb-group">
+        <button id="lb-undo" class="lb-btn" title="Undo (Ctrl+Z)">
+          <svg viewBox="0 0 24 24"><path d="M8 5l-5 5 5 5m-5-5h11a5 5 0 0 1 0 10h-3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="lb-redo" class="lb-btn" title="Redo (Ctrl+Y)">
+          <svg viewBox="0 0 24 24"><path d="M16 5l5 5-5 5m5-5H10a5 5 0 0 0 0 10h3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="lb-spacer"></div>
+      <button id="lb-play" class="lb-btn lb-last" title="Play">
+        <svg viewBox="0 0 24 24"><path d="M6 3.5v17l13-8.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </aside>
+
+    <!-- center: preview + timeline -->
+    <main class="center">
+      <div class="preview-area">
+        <div id="canvas-wrap" class="canvas-wrap">
+          <canvas id="stage"></canvas>
+          <div id="sel-box" class="sel-box" hidden></div>
+        </div>
+      </div>
+
+      <!-- timeline resizer handle -->
+      <div id="tl-resizer" class="tl-resizer" title="Drag up/down to resize timeline"></div>
+
+      <!-- transport -->
+      <div class="tl-tools">
+        <div id="tl-time" class="tl-time">00:00:00</div>
+        <div class="tl-transport">
+          <button id="t-jstart" class="t-btn" title="Jump to start">
+            <svg viewBox="0 0 24 24"><path d="M6 5v14M18 5l-9 7 9 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="t-play" class="t-btn t-play" title="Play / pause (Space)">
+            <svg class="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>
+            <svg class="i-pause" viewBox="0 0 24 24" hidden><path d="M7 4h4v16H7zM13 4h4v16h-4z" fill="currentColor"/></svg>
+          </button>
+          <button id="t-jend" class="t-btn" title="Jump to end">
+            <svg viewBox="0 0 24 24"><path d="M18 5v14M6 5l9 7-9 7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="t-bookmark" class="t-btn" title="Toggle bookmark">
+            <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.5L6 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="tl-right">
+          <button id="t-paste" class="t-btn" title="Paste layer" hidden>
+            <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 4V2.8h6V4" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+          <button id="t-copy" class="t-btn" title="Copy layer">
+            <svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- timeline -->
+      <section id="timeline" class="timeline">
+        <div id="tl-zoombar" class="tl-zoombar">
+          <button id="tl-zin" title="Zoom in">+</button>
+          <button id="tl-zout" title="Zoom out">−</button>
+          <input id="t-end-input" class="t-end" title="Project duration (frames)" type="number" min="1">
+        </div>
+        <div class="tl-scroll" id="tl-scroll">
+          <div class="tl-corner-header" id="tl-corner-header">LAYERS</div>
+          <canvas id="tl-ruler" class="tl-ruler" height="34"></canvas>
+          <div id="tl-rows" class="tl-rows">
+            <div id="tl-drop-line" class="tl-drop-line" hidden></div>
+          </div>
+          <div id="tl-playhead" class="tl-playhead"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- right dock -->
+    <aside class="right-dock">
+      <div class="rd-header">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="rd-group">
+        <button class="rd-btn" data-add="shape">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="15.5" cy="15.5" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>Shape</span>
+        </button>
+        <button class="rd-btn" data-add="media">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="15" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 15l4.5-4.5 3.5 3.5 3-3 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="8.2" cy="9" r="1.4" fill="currentColor"/><path d="M20 9v7a2 2 0 0 1-2 2h-1" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>Media</span>
+        </button>
+        <button class="rd-btn" data-add="audio">
+          <svg viewBox="0 0 24 24"><path d="M9 18V5l10-2v12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="16.5" cy="15" r="2.5" fill="currentColor"/></svg>
+          <span>Audio</span>
+        </button>
+        <button class="rd-btn" data-add="fx">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.5 6.2L21 8l-4.6 4 1.3 6.5L12 15.5 6.3 18.5 7.6 12 3 8l6.5.2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>Effects</span>
+        </button>
+        <button class="rd-btn" data-add="object">
+          <svg viewBox="0 0 24 24"><circle cx="8" cy="7.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="7.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="15" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+          <span>Object</span>
+        </button>
+        <button class="rd-btn" data-add="elements">
+          <svg viewBox="0 0 24 24"><path d="M12 3l7 12H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="10" cy="17" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>Elements</span>
+        </button>
+      </div>
+      <div class="rd-divider"></div>
+      <div class="rd-group">
+        <button class="rd-btn" data-add="freehand">
+          <svg viewBox="0 0 24 24"><path d="M4 19c2-.5 3-1 4.5-3C10 14 11 9 13 9s2 3 3.5 3.5S20 11 21 8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M4 19l3-.7-.9 1.5z" fill="currentColor"/></svg>
+          <span>Freehand<br>Drawing</span>
+        </button>
+        <button class="rd-btn" data-add="vector">
+          <svg viewBox="0 0 24 24"><path d="M12 2l5 9H7z" fill="currentColor" opacity=".85"/><path d="M12 11v6.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 19.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" fill="currentColor"/><path d="M4 21h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>Vector<br>Drawing</span>
+        </button>
+        <button class="rd-btn" data-add="text">
+          <svg viewBox="0 0 24 24"><text x="3" y="16.5" font-size="14" font-weight="700" fill="currentColor">A</text><text x="13" y="20" font-size="9" font-weight="600" fill="currentColor">a</text></svg>
+          <span>Text</span>
+        </button>
+        <button class="rd-btn" data-add="record">
+          <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9 6 6 0 0 1-6 6 6 6 0 1 1 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Record</span>
+        </button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<!-- Project settings -->
+<div class="modal" id="m-settings" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Project Settings</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <label class="f-row"><span>Name</span><input id="ps-name" type="text"></label>
+      <div class="f-row"><span>Aspect Ratio</span>
+        <div id="ps-aspect" class="chips">
+          <button data-ar="16:9">16:9</button><button data-ar="1:1">1:1</button><button data-ar="9:16">9:16</button>
+          <button data-ar="4:5">4:5</button><button data-ar="21:9">21:9</button><button data-ar="4:3">4:3</button>
+        </div>
+      </div>
+      <div class="f-row two">
+        <label><span>Width</span><input id="ps-w" type="number" min="16"></label>
+        <label><span>Height</span><input id="ps-h" type="number" min="16"></label>
+      </div>
+      <label class="f-row"><span>Frame Rate (fps)</span><input id="ps-fps" type="number" min="1" max="120"></label>
+      <div class="f-row"><span>Background Color</span><button id="ps-bg" class="swatch" title="background color"></button></div>
+      <div class="f-row two">
+        <label><span>Duration (sec)</span><input id="ps-dur" type="number" min="0.2" step="0.1"></label>
+        <div></div>
+      </div>
+    </div>
+    <div class="sheet-foot">
+      <button class="pill-btn" data-close>Cancel</button>
+      <button class="pill-btn accent" id="ps-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Text -->
+<div class="modal" id="m-text" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Text</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <textarea id="tx-text" rows="3" placeholder="Your text"></textarea>
+      <div class="f-row two">
+        <label><span>Font</span><select id="tx-font"></select></label>
+        <label><span>Weight</span><select id="tx-weight"><option value="300">Light</option><option value="400">Regular</option><option value="600">Semibold</option><option value="700">Bold</option><option value="900">Black</option></select></label>
+      </div>
+      <div class="f-row two">
+        <label><span>Size</span><input id="tx-size" type="number" min="8"></label>
+        <label><span>Angle</span><input id="tx-align" type="hidden" style="display:none">
+          <div id="tx-align-chips" class="chips"><button data-al="left">Left</button><button data-al="center">Center</button><button data-al="right">Right</button></div>
+        </label>
+      </div>
+      <div class="f-row"><span>Fill Color</span><button id="tx-color" class="swatch"></button></div>
+    </div>
+    <div class="sheet-foot">
+      <button class="pill-btn" data-close>Cancel</button>
+      <button class="pill-btn accent" id="tx-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Color picker -->
+<div class="modal" id="m-color" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Color</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div class="cp-sv"><canvas id="cp-sv-c" width="256" height="180"></canvas><div id="cp-sv-dot" class="cp-dot"></div></div>
+      <canvas id="cp-hue" width="256" height="18"></canvas>
+      <div class="f-row"><span>Hex</span><input id="cp-hex" type="text" spellcheck="false"></div>
+      <div id="cp-tabs" class="chips"><button data-cpt="rgb" class="on">RGB</button><button data-cpt="hsl">HSL</button></div>
+      <div id="cp-rgb" class="f-row three">
+        <label><span>R</span><input id="cp-r" type="number" min="0" max="255"></label>
+        <label><span>G</span><input id="cp-g" type="number" min="0" max="255"></label>
+        <label><span>B</span><input id="cp-b" type="number" min="0" max="255"></label>
+      </div>
+      <div id="cp-hsl" class="f-row three" hidden>
+        <label><span>H</span><input id="cp-h" type="number" min="0" max="360"></label>
+        <label><span>S</span><input id="cp-s" type="number" min="0" max="100"></label>
+        <label><span>L</span><input id="cp-l" type="number" min="0" max="100"></label>
+      </div>
+      <div class="f-row"><span>Saved</span><div id="cp-palette" class="mini-swatches"></div></div>
+      <button id="cp-save" class="ghost-btn full">Save color to palette</button>
+      <button id="cp-eyebrow" class="ghost-btn full" hidden>💧 Eyedropper</button>
+    </div>
+  </div>
+</div>
+
+<!-- Shape presets -->
+<div class="modal" id="m-shape" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Add Shape</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div id="shape-grid" class="shape-grid"></div>
+      <div class="f-row"><span>Fill</span><button id="sh-fill" class="swatch"></button></div>
+      <div class="f-row two">
+        <label><span>Stroke color</span><button id="sh-stroke" class="swatch"></button></label>
+        <label><span>Stroke width</span><input id="sh-sw" type="number" min="0" value="0"></label>
+      </div>
+    </div>
+    <div class="sheet-foot"><button class="pill-btn accent" id="sh-add">Add</button></div>
+  </div>
+</div>
+
+<!-- Object -->
+<div class="modal" id="m-object" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Add Object</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body list-btns">
+      <button data-obj="camera">📷 Camera <small>control project view</small></button>
+      <button data-obj="null">◇ Null Object <small>controller for linked layers</small></button>
+      <button data-obj="group">▣ Empty Group <small>organize layers together</small></button>
+    </div>
+  </div>
+</div>
+
+<!-- Elements -->
+<div class="modal" id="m-elements" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Elements</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body"><div id="el-grid" class="project-grid"></div></div>
+  </div>
+</div>
+
+<!-- Layer context menu -->
+<div class="context" id="m-layer" hidden></div>
+
+<!-- Parent picker -->
+<div class="modal" id="m-parent" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Set Parent</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body list-btns" id="parent-list"></div>
+  </div>
+</div>
+
+<!-- Mask picker -->
+<div class="modal" id="m-mask" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Masking</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body list-btns" id="mask-list"></div>
+  </div>
+</div>
+
+<!-- Keyframes -->
+<div class="modal wide" id="m-key" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Keyframes — <span id="k-layername"></span></h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div class="k-strip">
+        <div class="k-label">Time</div>
+        <div class="k-track" id="k-time-track"><canvas id="k-time-cv" height="44"></canvas><div id="k-time-ph" class="k-ph"></div></div>
+        <div class="k-rowinfo"><input id="k-time" class="mini-num" type="text"></div>
+      </div>
+      <div id="k-props" class="k-props"></div>
+      <div class="k-foot">
+        <button class="ghost-btn" id="k-clear-prop">Clear property</button>
+        <button class="ghost-btn" id="k-clear-all">Clear all keyframes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Easing / custom curve -->
+<div class="modal" id="m-ease" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Easing</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div id="ease-chips" class="chips wrap"></div>
+      <div class="ez-curve"><canvas id="ez-cv" width="260" height="260"></canvas></div>
+      <div class="f-row two">
+        <label><span>Out ctrl X</span><input id="ez-x2" type="number" step="0.05" min="0" max="1"></label>
+        <label><span>Out ctrl Y</span><input id="ez-y2" type="number" step="0.05" min="-1" max="2"></label>
+      </div>
+      <div class="f-row two">
+        <label><span>In ctrl X</span><input id="ez-x1" type="number" step="0.05" min="0" max="1"></label>
+        <label><span>In ctrl Y</span><input id="ez-y1" type="number" step="0.05" min="-1" max="2"></label>
+      </div>
+      <canvas id="ez-prev" width="256" height="40"></canvas>
+    </div>
+    <div class="sheet-foot">
+      <button class="pill-btn" data-close>Cancel</button>
+      <button class="pill-btn accent" id="ez-apply">Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- Effects browser -->
+<div class="modal wide" id="m-effects" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Effects — <span id="fx-layername"></span></h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <input id="fx-search" type="text" placeholder="Search effects…" style="flex:1;padding:8px 10px;background:var(--panel3);border:none;border-radius:9px;color:var(--txt)">
+        <label style="display:flex;gap:5px;align-items:center;font-size:12px;color:var(--txt2);white-space:nowrap">
+          <input id="fx-legacy" type="checkbox"> legacy
+        </label>
+      </div>
+      <div id="fx-cats" class="chips wrap"></div>
+      <div id="fx-grid" class="fx-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Export -->
+<div class="modal wide" id="m-export" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Export &amp; Share</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div id="ex-tabs" class="chips">
+        <button data-ext="video" class="on">Video</button><button data-ext="gif">GIF</button>
+        <button data-ext="pngseq">PNG Sequence</button><button data-ext="still">Still Image</button><button data-ext="project">Project Package</button>
+        <button data-ext="amxml">Alight Motion XML</button>
+      </div>
+      <div id="ex-video" class="ex-pane">
+        <div class="f-row two">
+          <label><span>Resolution</span>
+            <select id="ex-vres">
+              <option value="native" selected>Project Native</option>
+              <option value="2160p">4K UHD (2160p)</option>
+              <option value="1440p">2K QHD (1440p)</option>
+              <option value="1080p">FHD (1080p)</option>
+              <option value="720p">HD (720p)</option>
+              <option value="540p">SD (540p)</option>
+              <option value="custom">Custom...</option>
+            </select>
+          </label>
+          <label><span>Bitrate</span>
+            <select id="ex-vbitrate">
+              <option value="4000000">Low (4 Mbps)</option>
+              <option value="8000000">Medium (8 Mbps)</option>
+              <option value="12000000">Standard (12 Mbps)</option>
+              <option value="16000000" selected>High (16 Mbps - Recommended)</option>
+              <option value="24000000">Ultra (24 Mbps)</option>
+              <option value="40000000">Maximum (40 Mbps)</option>
+              <option value="custom">Custom (Mbps)...</option>
+            </select>
+          </label>
+        </div>
+        <div class="f-row two" id="ex-vres-custom" style="display:none">
+          <label><span>Custom Width (px)</span><input id="ex-vw" type="number" min="64" max="7680" step="2" value="1920"></label>
+          <label><span>Custom Height (px)</span><input id="ex-vh" type="number" min="64" max="7680" step="2" value="1080"></label>
+        </div>
+        <div class="f-row" id="ex-vbitrate-custom" style="display:none">
+          <span>Custom Bitrate (Mbps)</span>
+          <input id="ex-vbr-val" type="number" min="0.5" max="100" step="0.5" value="16" style="flex:1;max-width:210px">
+        </div>
+        <div class="f-row two">
+          <label><span>Frame Rate (fps)</span>
+            <select id="ex-vfps">
+              <option value="project" selected>Match Project</option>
+              <option value="60">60 fps</option>
+              <option value="30">30 fps</option>
+              <option value="24">24 fps</option>
+            </select>
+          </label>
+          <label><span>Format</span>
+            <select id="ex-vfmt">
+              <option value="">Auto (MP4 if supported, else WebM)</option>
+              <option value="video/mp4">MP4 (H.264)</option>
+              <option value="video/webm;codecs=vp9">WebM (VP9)</option>
+              <option value="video/webm">WebM (VP8)</option>
+            </select>
+          </label>
+        </div>
+        <div class="f-row" style="background:var(--panel2);border-radius:10px;padding:8px 12px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12.5px;color:var(--txt2);">Output: <strong id="ex-vdims" style="color:var(--accent);font-weight:700">1080 × 1350 px</strong></span>
+          <span id="ex-vbr-info" style="font-size:12px;color:var(--txt3);">16.0 Mbps · ~10 MB</span>
+        </div>
+        <p class="hint">Renders video frames in real-time and downloads automatically when finished.</p>
+      </div>
+      <div id="ex-gif" class="ex-pane" hidden>
+        <div class="f-row two">
+          <label><span>GIF FPS</span><select id="ex-gfps"><option value="8">8</option><option value="12" selected>12</option><option value="15">15</option><option value="24">24</option></select></label>
+          <label><span>Scale</span><select id="ex-gscale"><option>0.25</option><option selected>0.5</option><option>1</option></select></label>
+        </div>
+        <p class="hint">256-color encoding, capped at 900 frames.</p>
+      </div>
+      <div id="ex-pngseq" class="ex-pane" hidden>
+        <label class="f-row"><span>Frame rate</span><select id="ex-pfps"><option value="12">12</option><option value="24">24</option><option value="30" selected>30</option><option value="60">60</option></select></label>
+        <label class="f-row"><span>Range</span><div class="chips"><button data-pr="all" class="on">Whole project</button><button data-pr="sel">Selected layer only</button></div></label>
+        <p class="hint">Frames download one by one (PNG).</p>
+      </div>
+      <div id="ex-still" class="ex-pane" hidden>
+        <label class="f-row"><span>Scale</span><select id="ex-sscale"><option>0.5</option><option selected>1</option><option>2</option></select></label>
+        <p class="hint">Exports the current frame as PNG.</p>
+      </div>
+      <div id="ex-project" class="ex-pane" hidden>
+        <p class="hint">Downloads a .alightproj JSON package — re-import editable on any device.</p>
+      </div>
+      <div id="ex-amxml" class="ex-pane" hidden>
+        <p class="hint">Imports and exports standard Alight Motion XML (.xml) files compatible with Alight Motion on Android and iOS.</p>
+        <label class="f-row"><span>Format</span><strong style="color:var(--accent)">Alight Motion Project (.xml)</strong></label>
+        <label class="f-row"><span>Target Spec</span><span style="color:var(--txt2)">Alight Motion v4.0 - v6.2+ (amver 859 / 500000)</span></label>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button id="ex-btn-import-xml" type="button" class="pill-btn" style="flex:1">Import XML</button>
+          <button id="ex-btn-export-xml" type="button" class="pill-btn accent" style="flex:1">Export XML</button>
+        </div>
+      </div>
+      <div id="ex-progress" class="ex-progress" hidden><div id="ex-bar"></div><span id="ex-label"></span></div>
+    </div>
+    <div class="sheet-foot"><button class="pill-btn accent" id="ex-go">Export</button></div>
+  </div>
+</div>
+
+<!-- Freehand editor -->
+<div class="modal wide" id="m-freehand" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Freehand Drawing</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div class="fh-tools">
+        <button class="swatch" id="fh-color"></button>
+        <label><span>Size</span><input id="fh-size" type="number" min="1" max="120" value="8"></label>
+        <label><span>Fill color</span><button class="swatch" id="fh-fill"></button></label>
+        <label class="chk"><input id="fh-fillon" type="checkbox"> Fill shape when closed</label>
+        <button class="ghost-btn" id="fh-undo">Undo stroke</button>
+        <button class="ghost-btn" id="fh-clear">Clear</button>
+      </div>
+      <canvas id="fh-canvas" class="fh-canvas" width="860" height="480"></canvas>
+    </div>
+    <div class="sheet-foot"><button class="pill-btn accent" id="fh-add">Add to project</button></div>
+  </div>
+</div>
+
+<!-- Vector editor -->
+<div class="modal wide" id="m-vector" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Vector Drawing</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div class="fh-tools">
+        <button class="swatch" id="vc-color"></button>
+        <label><span>Stroke</span><input id="vc-sw" type="number" min="0" value="4"></label>
+        <button class="ghost-btn" id="vc-close">Close path</button>
+        <button class="ghost-btn" id="vc-open">Open path</button>
+        <button class="ghost-btn" id="vc-undo">Remove last point</button>
+        <button class="ghost-btn" id="vc-clear">Clear</button>
+        <button class="ghost-btn" id="vc-editmode">Edit points: OFF</button>
+      </div>
+      <canvas id="vc-canvas" class="fh-canvas" width="860" height="480"></canvas>
+    </div>
+    <div class="sheet-foot"><button class="pill-btn accent" id="vc-add">Add to project</button></div>
+  </div>
+</div>
+
+<!-- Record -->
+<div class="modal" id="m-record" hidden>
+  <div class="sheet small">
+    <div class="sheet-head"><h2>Record Audio</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <p class="hint" id="rc-state">Idle.</p>
+      <div class="f-row"><span>Elapsed</span><strong id="rc-time">0:00</strong></div>
+    </div>
+    <div class="sheet-foot">
+      <button class="pill-btn" id="rc-toggle">● Record</button>
+      <button class="pill-btn accent" id="rc-save" disabled>Save to project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ShaderToy Inspector / Editor -->
+<div class="modal wide" id="m-shadertoy" hidden>
+  <div class="sheet" style="max-width:860px">
+    <div class="sheet-head"><h2>ShaderToy GLSL - <span id="st-effectname"></span></h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span class="hint" style="margin:0">Compatible with VS Code Shader Toy (stevensona/shader-toy) &amp; shadertoy.com</span>
+        <div style="display:flex;gap:6px">
+          <button class="ghost-btn" id="st-copy">Copy GLSL</button>
+          <button class="ghost-btn" id="st-download">Download .glsl</button>
+        </div>
+      </div>
+      <textarea id="st-code" style="width:100%;height:380px;background:#0d1117;color:#c9d1d9;font-family:Consolas,monospace;font-size:12px;padding:12px;border:1px solid var(--line);border-radius:8px;resize:vertical;tab-size:2;line-height:1.4" spellcheck="false"></textarea>
+    </div>
+    <div class="sheet-foot">
+      <button class="pill-btn accent" id="st-apply">Apply &amp; Preview</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit shape geometry (from the selection bar) -->
+<div class="modal" id="m-editshape" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Edit Shape</h2><button class="x-btn" data-close>✕</button></div>
+    <div class="sheet-body">
+      <div id="es-grid" class="shape-grid"></div>
+      <div class="f-row two">
+        <label><span>Width</span><input id="es-w" type="number" min="4" step="1"></label>
+        <label><span>Height</span><input id="es-h" type="number" min="4" step="1"></label>
+      </div>
+      <div class="f-row two">
+        <label id="es-corner-row"><span>Corner radius</span><input id="es-corner" type="number" min="0" step="1"></label>
+        <label id="es-spikes-row"><span>Points</span><input id="es-spikes" type="number" min="3" max="24" step="1"></label>
+      </div>
+      <div class="f-row" id="es-inner-row">
+        <label style="width:100%"><span>Inner radius %</span><input id="es-inner" type="number" min="5" max="95" step="1"></label>
+      </div>
+      <p class="hint">Geometry only — layer scale stays untouched.</p>
+    </div>
+    <div class="sheet-foot"><button class="pill-btn accent" data-close>Done</button></div>
+  </div>
+</div>
+
+<!-- Missing Fonts Dialog -->
+<div class="modal" id="m-missing-fonts" hidden>
+  <div class="sheet" style="max-width:440px">
+    <div class="sheet-head">
+      <h2>Missing Fonts</h2>
+      <button class="x-btn" data-close>✕</button>
+    </div>
+    <div class="sheet-body">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
+        <svg viewBox="0 0 24 24" width="28" height="28" style="flex-shrink:0;color:#f59e0b;margin-top:2px">
+          <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z" fill="currentColor"/>
+        </svg>
+        <p style="margin:0;font-size:13px;line-height:1.45;color:var(--txt)">
+          The following fonts used in this project are not installed on your system. Default fonts will be used instead.
+        </p>
+      </div>
+      <div id="mf-list" style="max-height:180px;overflow-y:auto;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:8px 12px;display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+    <div class="sheet-foot" style="justify-content:flex-end">
+      <button class="pill-btn accent" id="btn-missing-fonts-ok" style="min-width:100px">OK</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+<input type="file" id="file-import-xml" accept=".xml" hidden>
+<input type="file" id="file-media" accept="image/*,video/*" hidden>
+<input type="file" id="file-audio" accept="audio/*" hidden>
+<input type="file" id="file-replace-media" accept="image/*,video/*,audio/*" hidden>
+
+<script src="js/storage.js"></script>
+<script src="js/model.js"></script>
+<script src="js/render.js"></script>
+<script src="js/effects-data.js"></script>
+<script src="js/effects-catalog.js"></script>
+<script src="js/shadertoy-converter.js"></script>
+<script src="js/am-xml-export.js"></script>
+<script src="js/effects-engine.js"></script>
+<script src="js/effects-ui.js"></script>
+<script src="js/ui-common.js"></script>
+<script src="js/ui-home.js"></script>
+<script src="js/ui-editor.js"></script>
+<script src="js/ui-props.js"></script>
+<script src="js/selection-bar.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
